@@ -806,3 +806,185 @@ ul { list-style: none; }
   .contact-strip span,
   .hero-actions .button { width: 100%; justify-content: center; }
 }
+
+/* ─── Hero Profile Image ───────────────────────────────────── */
+.hero-image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid var(--line-bright);
+  box-shadow: var(--shadow-lg), var(--glow);
+  margin-bottom: 1.25rem;
+}
+
+.hero-profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.6s var(--ease);
+}
+
+.hero-image-container:hover .hero-profile-img {
+  transform: scale(1.04);
+}
+
+.hero-image-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, transparent 55%, rgba(5,10,16,0.75) 100%),
+    linear-gradient(135deg, rgba(56,189,248,0.08), transparent 60%);
+  pointer-events: none;
+}
+
+/* ─── About Gallery ────────────────────────────────────────── */
+.about-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.about-gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+.gallery-item {
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  position: relative;
+  transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.gallery-item.item-1 { height: 300px; }
+.gallery-item.item-2 { height: 240px; }
+
+.gallery-item:hover {
+  border-color: var(--accent-border);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md), var(--glow);
+}
+
+.gallery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.6s var(--ease), filter 0.4s ease;
+  filter: brightness(0.88) saturate(1.1);
+}
+
+.gallery-item:hover .gallery-img {
+  transform: scale(1.06);
+  filter: brightness(1) saturate(1.15);
+}
+
+/* ─── Credentials Flex Layout ──────────────────────────────── */
+.credentials-flex {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.credentials-text-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.credentials-cert-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.mb-4 { margin-bottom: 0; }
+
+/* ─── Certificate Preview Cards ─────────────────────────────── */
+.cert-preview-card {
+  border-radius: 24px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+  transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.cert-preview-card:hover {
+  border-color: var(--accent-border);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md), var(--glow);
+}
+
+.cert-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.1rem 1.4rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cert-header svg { color: var(--accent); flex-shrink: 0; }
+
+.cert-image-container {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  overflow: hidden;
+  background: #f5f3ee;
+  cursor: pointer;
+}
+
+.cert-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.55s var(--ease);
+}
+
+.cert-preview-card:hover .cert-image-container img {
+  transform: scale(1.04);
+}
+
+.cert-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(5,10,16,0.88) 0%, rgba(5,10,16,0.1) 50%, transparent 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 1.25rem 1.4rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cert-preview-card:hover .cert-overlay { opacity: 1; }
+
+.cert-overlay span {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.88rem;
+  letter-spacing: 0.02em;
+}
+
+/* ─── Responsive — new sections ────────────────────────────── */
+@media (max-width: 1060px) {
+  .credentials-flex { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px) {
+  .about-gallery { gap: 1rem; }
+  .gallery-item.item-1 { height: 220px; }
+  .gallery-item.item-2 { height: 180px; }
+  .credentials-flex { grid-template-columns: 1fr; }
+  .cert-image-container { height: 200px; }
+}

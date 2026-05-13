@@ -10,6 +10,7 @@ import {
   Mail,
   MapPin,
   Phone,
+  Award,
 } from 'lucide-react'
 import './App.css'
 
@@ -203,12 +204,12 @@ function Portfolio() {
           </div>
 
           <aside className="hero-panel">
-            <div className="hero-card hero-card-accent">
-              <p>Current focus</p>
-              <strong>Data analytics, reporting &amp; business insight generation</strong>
+            <div className="hero-image-container">
+               <img src="/manish-profile.jpg" alt="Manish" className="hero-profile-img" />
+               <div className="hero-image-glow"></div>
             </div>
-            <div className="hero-grid">
-              {metrics.map((metric) => (
+            <div className="hero-grid mt-4">
+              {metrics.slice(0, 2).map((metric) => (
                 <article key={metric.label} className="metric-card">
                   <strong>{metric.value}</strong>
                   <span>{metric.label}</span>
@@ -225,41 +226,52 @@ function Portfolio() {
             <h2>Professional, insight-driven, and execution-focused.</h2>
           </div>
           <div className="about-layout">
-            <div className="about-copy">
-              <p>
-                I recently completed my Bachelor of Engineering in Computer Science and have been
-                building a strong foundation in analytics through internships, reporting projects, and
-                hands-on data work. My strengths sit at the intersection of data cleaning, exploratory
-                analysis, visualization, and translating findings into business recommendations.
-              </p>
-              <p>
-                I'm especially interested in analyst roles where I can support growth, operations,
-                product, or e-commerce teams by building reliable reporting systems and surfacing the
-                metrics that matter most.
-              </p>
+            <div className="about-content-wrapper">
+              <div className="about-copy">
+                <p>
+                  I recently completed my Bachelor of Engineering in Computer Science and have been
+                  building a strong foundation in analytics through internships, reporting projects, and
+                  hands-on data work. My strengths sit at the intersection of data cleaning, exploratory
+                  analysis, visualization, and translating findings into business recommendations.
+                </p>
+                <p>
+                  I'm especially interested in analyst roles where I can support growth, operations,
+                  product, or e-commerce teams by building reliable reporting systems and surfacing the
+                  metrics that matter most. Beyond data, I appreciate automotive design and the clarity of the ocean.
+                </p>
+              </div>
+              <div className="spotlight-card">
+                <div className="spotlight-row">
+                  <GraduationCap size={18} />
+                  <div>
+                    <strong>B.E. Computer Science</strong>
+                    <span>Vivekananda College of Engineering and Technology</span>
+                  </div>
+                </div>
+                <div className="spotlight-row">
+                  <BarChart3 size={18} />
+                  <div>
+                    <strong>Core stack</strong>
+                    <span>Python, SQL, Power BI, Excel, GA4</span>
+                  </div>
+                </div>
+                <div className="spotlight-row">
+                  <BriefcaseBusiness size={18} />
+                  <div>
+                    <strong>Internship exposure</strong>
+                    <span>Research, automation, benchmarking, reporting</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="spotlight-card">
-              <div className="spotlight-row">
-                <GraduationCap size={18} />
-                <div>
-                  <strong>B.E. Computer Science</strong>
-                  <span>Vivekananda College of Engineering and Technology</span>
-                </div>
-              </div>
-              <div className="spotlight-row">
-                <BarChart3 size={18} />
-                <div>
-                  <strong>Core stack</strong>
-                  <span>Python, SQL, Power BI, Excel, GA4</span>
-                </div>
-              </div>
-              <div className="spotlight-row">
-                <BriefcaseBusiness size={18} />
-                <div>
-                  <strong>Internship exposure</strong>
-                  <span>Research, automation, benchmarking, reporting</span>
-                </div>
-              </div>
+            
+            <div className="about-gallery">
+               <div className="gallery-item item-1">
+                 <img src="/manish-thar.jpg" alt="Manish with Thar" className="gallery-img" />
+               </div>
+               <div className="gallery-item item-2">
+                 <img src="/manish-sea.jpg" alt="Manish by the Sea" className="gallery-img" />
+               </div>
             </div>
           </div>
         </section>
@@ -339,25 +351,60 @@ function Portfolio() {
           </div>
         </section>
 
-        {/* ── Credentials ──────────────────────────────────── */}
+        {/* ── Education & Credentials ──────────────────────────────────── */}
         <section className="section credentials-section">
-          <div className="credentials-grid">
-            <article className="credential-card">
-              <p className="eyebrow">Certifications</p>
-              <ul>
-                {certifications.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
-            <article className="credential-card">
-              <p className="eyebrow">Achievements</p>
-              <ul>
-                {achievements.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
+          <div className="section-heading">
+            <p className="eyebrow">Academic & Professional</p>
+            <h2>Certifications, Achievements & Education Records.</h2>
+          </div>
+          
+          <div className="credentials-flex">
+            <div className="credentials-text-col">
+              <article className="credential-card mb-4">
+                <p className="eyebrow">Certifications</p>
+                <ul>
+                  {certifications.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </article>
+              <article className="credential-card">
+                <p className="eyebrow">Achievements</p>
+                <ul>
+                  {achievements.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </article>
+            </div>
+            
+            <div className="credentials-cert-col">
+               <article className="cert-preview-card">
+                 <div className="cert-header">
+                   <Award size={18} />
+                   <span>12th Grade Board Certificate</span>
+                 </div>
+                 <div className="cert-image-container">
+                   <img src="/cert-12th.jpg" alt="12th Grade Certificate" />
+                   <div className="cert-overlay">
+                     <span>Higher Secondary Examination</span>
+                   </div>
+                 </div>
+               </article>
+               
+               <article className="cert-preview-card">
+                 <div className="cert-header">
+                   <Award size={18} />
+                   <span>10th Grade Board Certificate</span>
+                 </div>
+                 <div className="cert-image-container">
+                   <img src="/cert-10th.jpg" alt="10th Grade Certificate" />
+                   <div className="cert-overlay">
+                     <span>Secondary School Leaving Certificate</span>
+                   </div>
+                 </div>
+               </article>
+            </div>
           </div>
         </section>
 
