@@ -1,62 +1,40 @@
+import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
-  ArrowRight,
-  BarChart3,
-  BriefcaseBusiness,
-  Download,
-  ExternalLink,
+  ArrowUpRight,
   Github,
-  GraduationCap,
   Linkedin,
   Mail,
   MapPin,
-  Phone,
+  Download,
+  ExternalLink,
+  Star,
+  GitFork,
+  Code2,
+  Briefcase,
+  GraduationCap,
   Award,
+  Zap,
+  Globe,
+  Database
 } from 'lucide-react'
 import './App.css'
 
+// ─── Data ──────────────────────────────────────────────────
+
 const skillGroups = [
   {
-    title: 'Languages & Querying',
-    items: [
-      'Python',
-      'Pandas',
-      'NumPy',
-      'SQL',
-      'PostgreSQL',
-      'MySQL',
-      'Window Functions',
-      'CTEs',
-      'Query Optimization',
-    ],
+    title: 'Languages',
+    items: ['Python', 'SQL', 'PostgreSQL', 'MySQL'],
   },
   {
-    title: 'Analytics & Reporting',
-    items: [
-      'Exploratory Data Analysis',
-      'Data Cleaning',
-      'KPI Reporting',
-      'Business Insights',
-      'GA4',
-      'Statistical Analysis',
-    ],
+    title: 'Libraries',
+    items: ['Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Scikit-learn'],
   },
   {
-    title: 'Visualization & Tools',
-    items: [
-      'Power BI',
-      'DAX',
-      'Star Schema',
-      'Matplotlib',
-      'Seaborn',
-      'Jupyter Notebook',
-      'Excel',
-      'Streamlit',
-      'Git',
-      'n8n',
-      'Zapier',
-      'Notion',
-    ],
-  },
+    title: 'Tools',
+    items: ['Power BI', 'Excel', 'Tableau', 'GA4', 'n8n', 'Zapier'],
+  }
 ]
 
 const experiences = [
@@ -65,405 +43,306 @@ const experiences = [
     company: 'Laneway',
     period: 'Nov 2025 – Feb 2026',
     points: [
-      'Automated document-heavy workflows with n8n and Zapier, reducing manual processing time by around 40% across internal operations.',
-      'Evaluated and benchmarked 15+ AI tools, producing structured analysis reports that informed technology adoption decisions.',
-      'Coordinated research deliverables across a 10-member cross-functional team and consistently hit milestones in a high-velocity environment.',
+      'Automated document-heavy workflows with n8n and Zapier, reducing manual processing time by 40%.',
+      'Evaluated 15+ AI tools, producing analysis reports for tech adoption.',
+      'Led research deliverables across a 10-member cross-functional team.'
     ],
   },
   {
-    role: 'Research & Development Intern',
+    role: 'R&D Intern',
     company: 'CoCreate Ventures',
     period: 'Oct 2024 – Mar 2025',
     points: [
-      'Conducted structured competitive research across 5+ startup domains and translated findings into market analysis for go-to-market positioning.',
-      'Became a finalist in Samsung Innovation Challenge 2024 for an AI-driven product concept supported by data analysis.',
+      'Conducted competitive research across 5+ startup domains.',
+      'Samsung Innovation Challenge 2024 Finalist for AI-driven product concept.'
     ],
-  },
+  }
 ]
 
 const projects = [
   {
     title: 'Amazon Sales Analytics',
-    subtitle: 'Optimization & Forecasting',
-    stack: ['Python', 'SQL', 'Power BI', 'DAX', 'Excel'],
-    summary:
-      'Built an end-to-end analytics system for sales performance, PPC optimization, funnel analysis, and demand forecasting across an Amazon e-commerce dataset.',
-    highlights: [
-      'Designed a star schema model and built DAX measures for ROAS, ACOS, and conversion rate.',
-      'Integrated reorder point and safety stock forecasting for inventory planning.',
-      'Delivered a multi-page Power BI dashboard for ad spend, pricing, and inventory decisions.',
-    ],
+    stack: ['Python', 'Power BI', 'SQL'],
+    summary: 'End-to-end analytics for sales performance and inventory forecasting.',
+    image: 'https://images.unsplash.com/photo-1523474253046-2cd2c788f3ff?auto=format&fit=crop&q=80&w=800'
   },
   {
     title: 'Quick Commerce Analysis',
-    subtitle: 'End-to-End Business Insights',
-    stack: ['Python', 'Pandas', 'Matplotlib', 'Seaborn', 'Jupyter'],
-    summary:
-      'Cleaned and analyzed a 10,000+ record e-commerce dataset to uncover patterns in customer behavior, category performance, and seasonality.',
-    highlights: [
-      'Resolved real-world data inconsistencies to create an analysis-ready dataset.',
-      'Identified top-performing categories and seasonal trends with clear business takeaways.',
-      'Presented 5+ actionable insights through stakeholder-friendly visual reporting.',
-    ],
-  },
-  {
-    title: 'Reusable Data Pipeline',
-    subtitle: 'Data Cleaning & Preprocessing Framework',
-    stack: ['Python', 'Pandas', 'NumPy', 'Matplotlib'],
-    summary:
-      'Engineered a modular preprocessing workflow for repeated analytics use cases, focused on trustworthy and ML-ready datasets.',
-    highlights: [
-      'Handled missing values, duplicates, type normalization, and outlier treatment using the IQR method.',
-      'Standardized cleaning steps into a reusable workflow with validated output structure.',
-      'Reduced repetitive preparation effort for downstream analysis and modeling.',
-    ],
-  },
-]
-
-const certifications = [
-  'SQL for Data Analysis — Window Functions, Joins, CTEs, Subqueries (Udemy, 2025)',
-  'Data Analysis with Python — NumPy, Pandas, Data Cleaning, Advanced Visualization (Udemy, 2025)',
-  'Generative AI for Digital Marketing — Prompt Engineering, AI Content Strategy (Udemy, 2025)',
+    stack: ['Python', 'Pandas', 'Seaborn'],
+    summary: 'Behavioral analysis on 10k+ records to optimize category performance.',
+    image: 'https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&q=80&w=800'
+  }
 ]
 
 const achievements = [
-  'Finalist — Samsung Innovation Challenge 2024 from 500+ nationwide entries',
-  'Finalist — HackArCode National Hackathon 2024',
-  'Delivered 5+ technical workshops on AI tools and data automation to 20+ students',
+  'Samsung Innovation Challenge Finalist',
+  'HackArCode National Hackathon Finalist',
+  'Delivered 5+ AI workshops to 20+ students'
 ]
 
-const metrics = [
-  { value: '40%', label: 'workflow time reduced' },
-  { value: '15+', label: 'AI tools evaluated' },
-  { value: '10K+', label: 'records analyzed' },
-  { value: '5+', label: 'insights delivered' },
-]
+// ─── Components ───────────────────────────────────────────
+
+const GithubRepos = ({ username }) => {
+  const [repos, setRepos] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=6`)
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setRepos(data)
+        }
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
+  }, [username])
+
+  if (loading) return <div className="text-dim">Fetching live repos...</div>
+
+  return (
+    <div className="repo-grid">
+      {repos.map(repo => (
+        <motion.a
+          key={repo.id}
+          href={repo.html_url}
+          target="_blank"
+          rel="noreferrer"
+          className="repo-item"
+          whileHover={{ borderColor: 'rgba(255,255,255,0.3)', background: 'rgba(255,255,255,0.05)' }}
+        >
+          <div className="flex justify-between items-start mb-2">
+            <h4 className="font-bold text-lg">{repo.name}</h4>
+            <ArrowUpRight size={16} className="text-dim" />
+          </div>
+          <p className="text-sm text-dim mb-6 flex-grow">{repo.description || 'No description provided.'}</p>
+          <div className="flex gap-4 text-xs text-dim">
+            <span className="flex items-center gap-1"><Star size={12} /> {repo.stargazers_count}</span>
+            <span className="flex items-center gap-1"><GitFork size={12} /> {repo.forks_count}</span>
+            {repo.language && <span className="flex items-center gap-1"><Code2 size={12} /> {repo.language}</span>}
+          </div>
+        </motion.a>
+      ))}
+    </div>
+  )
+}
+
+const BentoItem = ({ children, className, delay = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
+    className={`bento-item ${className}`}
+  >
+    {children}
+  </motion.div>
+)
 
 function Portfolio() {
   return (
-    <div className="portfolio-shell">
+    <div className="portfolio-wrapper">
+      <nav className="navbar">
+        <a href="#home" className="nav-link">Home</a>
+        <a href="#projects" className="nav-link">Work</a>
+        <a href="#experience" className="nav-link">Exp</a>
+        <a href="#contact" className="nav-link">Contact</a>
+      </nav>
 
-      {/* ── Navbar ─────────────────────────────────────────── */}
-      <header className="topbar">
-        <a className="brand" href="#home">Manish</a>
-        <nav className="nav-links" aria-label="Primary">
-          <a href="#about">About</a>
-          <a href="#experience">Experience</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <a
-          className="resume-link"
-          href="/Manish_Data_Analyst_Resume.pdf"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Resume ↗
-        </a>
-      </header>
-
-      <main>
-
-        {/* ── Hero ─────────────────────────────────────────── */}
-        <section className="hero section" id="home">
-          <div className="hero-copy">
-            <p className="eyebrow">Data Analyst Portfolio</p>
-            <h1>
-              Turning messy data into
-              <span> clear business decisions.</span>
-            </h1>
-            <p className="hero-text">
-              I'm Manish — a data analyst with hands-on experience in Python, SQL, Power BI, and
-              analytics reporting. I build practical dashboards, clean pipelines, and insight-driven
-              analyses that help teams act with confidence.
+      <main className="bento-container" id="home">
+        
+        {/* Hero */}
+        <BentoItem className="hero-card">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <p className="text-dim uppercase tracking-widest text-[10px] mb-6 font-bold flex items-center gap-2">
+              <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
+              Available for high-impact roles
             </p>
-            <div className="hero-actions">
-              <a className="button button-primary" href="#projects">
-                View Projects <ArrowRight size={17} />
+            <h1 className="gradient-text">Engineering <br />Data Clarity.</h1>
+            <p className="text-dim text-lg max-w-xl mb-12">
+              I'm Manish. I transform complex data into strategic advantages through 
+              rigorous analysis and high-fidelity visualization.
+            </p>
+            <div className="flex gap-6 items-center">
+              <a href="#contact" className="px-8 py-4 bg-white text-black rounded-full font-bold hover:scale-105 transition-all flex items-center gap-2">
+                Connect <ArrowUpRight size={18} />
               </a>
-              <a
-                className="button button-secondary"
-                href="/Manish_Data_Analyst_Resume.pdf"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Download size={17} /> Download Resume
+              <a href="https://github.com/manishzzz" target="_blank" className="text-white hover:text-white/60 transition-colors">
+                <Github size={24} />
+              </a>
+              <a href="https://linkedin.com/in/manish050" target="_blank" className="text-white hover:text-white/60 transition-colors">
+                <Linkedin size={24} />
               </a>
             </div>
-            <div className="contact-strip">
-              <a href="mailto:manishmaniyadhav@gmail.com">
-                <Mail size={15} /> manishmaniyadhav@gmail.com
-              </a>
-              <a href="tel:+918139817262">
-                <Phone size={15} /> +91 8139817262
-              </a>
-              <span>
-                <MapPin size={15} /> Kasaragod, India
+          </motion.div>
+        </BentoItem>
+
+        {/* Profile Image */}
+        <BentoItem className="profile-card">
+          <img src="/manish-profile.jpg" alt="Manish" className="profile-img" />
+        </BentoItem>
+
+        {/* Metrics */}
+        <BentoItem className="stat-card">
+          <span className="stat-value">40%</span>
+          <span className="text-dim text-[10px] uppercase tracking-widest font-bold">Automation Lift</span>
+        </BentoItem>
+
+        <BentoItem className="stat-card">
+          <span className="stat-value">15+</span>
+          <span className="text-dim text-[10px] uppercase tracking-widest font-bold">Tech Evaluations</span>
+        </BentoItem>
+
+        {/* About / Core Stack */}
+        <BentoItem className="grid-col-span-4 flex flex-col justify-center">
+          <h3 className="text-xl mb-6 flex items-center gap-3"><Database size={20} className="text-white/40" /> Core Stack</h3>
+          <div className="flex flex-wrap gap-3">
+            {skillGroups.flatMap(g => g.items).map(skill => (
+              <span key={skill} className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-medium hover:bg-white/10 transition-colors">
+                {skill}
               </span>
-            </div>
+            ))}
           </div>
+        </BentoItem>
 
-          <aside className="hero-panel">
-            <div className="hero-image-container">
-               <img src="/manish-profile.jpg" alt="Manish" className="hero-profile-img" />
-               <div className="hero-image-glow"></div>
-            </div>
-            <div className="hero-grid mt-4">
-              {metrics.slice(0, 2).map((metric) => (
-                <article key={metric.label} className="metric-card">
-                  <strong>{metric.value}</strong>
-                  <span>{metric.label}</span>
-                </article>
-              ))}
-            </div>
-          </aside>
-        </section>
-
-        {/* ── About ────────────────────────────────────────── */}
-        <section className="section about-section" id="about">
-          <div className="section-heading">
-            <p className="eyebrow">Profile</p>
-            <h2>Professional, insight-driven, and execution-focused.</h2>
-          </div>
-          <div className="about-layout">
-            <div className="about-content-wrapper">
-              <div className="about-copy">
-                <p>
-                  I recently completed my Bachelor of Engineering in Computer Science and have been
-                  building a strong foundation in analytics through internships, reporting projects, and
-                  hands-on data work. My strengths sit at the intersection of data cleaning, exploratory
-                  analysis, visualization, and translating findings into business recommendations.
-                </p>
-                <p>
-                  I'm especially interested in analyst roles where I can support growth, operations,
-                  product, or e-commerce teams by building reliable reporting systems and surfacing the
-                  metrics that matter most. Beyond data, I appreciate automotive design and the clarity of the ocean.
-                </p>
+        {/* Achievements Section */}
+        <BentoItem className="grid-col-span-4 flex flex-col justify-center">
+          <h3 className="text-xl mb-6 flex items-center gap-3"><Zap size={20} className="text-white/40" /> Key Milestones</h3>
+          <div className="space-y-4">
+            {achievements.map((item, i) => (
+              <div key={i} className="flex items-center gap-3 text-sm text-dim">
+                <div className="w-1 h-1 bg-white/30 rounded-full" />
+                {item}
               </div>
-              <div className="spotlight-card">
-                <div className="spotlight-row">
-                  <GraduationCap size={18} />
-                  <div>
-                    <strong>B.E. Computer Science</strong>
-                    <span>Vivekananda College of Engineering and Technology</span>
-                  </div>
-                </div>
-                <div className="spotlight-row">
-                  <BarChart3 size={18} />
-                  <div>
-                    <strong>Core stack</strong>
-                    <span>Python, SQL, Power BI, Excel, GA4</span>
-                  </div>
-                </div>
-                <div className="spotlight-row">
-                  <BriefcaseBusiness size={18} />
-                  <div>
-                    <strong>Internship exposure</strong>
-                    <span>Research, automation, benchmarking, reporting</span>
-                  </div>
-                </div>
+            ))}
+          </div>
+        </BentoItem>
+
+        {/* Work Gallery Heading */}
+        <div className="col-span-12 mt-20 mb-8" id="projects">
+          <p className="text-dim uppercase tracking-[0.3em] text-[10px] font-black mb-2 px-2">Featured Projects</p>
+          <h2 className="text-6xl font-bold px-1">Case Studies</h2>
+        </div>
+
+        {/* Projects */}
+        {projects.map((project, i) => (
+          <BentoItem key={project.title} className="project-bento" delay={i * 0.1}>
+            <div className="project-img-wrapper">
+              <img src={project.image} alt={project.title} />
+            </div>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-3xl">{project.title}</h3>
+              <div className="flex gap-2">
+                {project.stack.map(s => <span key={s} className="text-[10px] uppercase font-black text-white/40 border border-white/5 px-3 py-1 rounded-full">{s}</span>)}
               </div>
             </div>
-            
-            <div className="about-gallery">
-               <div className="gallery-item item-1">
-                 <img src="/manish-thar.jpg" alt="Manish with Thar" className="gallery-img" />
-               </div>
-               <div className="gallery-item item-2">
-                 <img src="/manish-sea.jpg" alt="Manish by the Sea" className="gallery-img" />
-               </div>
-            </div>
-          </div>
-        </section>
+            <p className="text-dim text-md leading-relaxed">{project.summary}</p>
+          </BentoItem>
+        ))}
 
-        {/* ── Experience ───────────────────────────────────── */}
-        <section className="section" id="experience">
-          <div className="section-heading">
-            <p className="eyebrow">Experience</p>
-            <h2>Work shaped by measurable outcomes and structured analysis.</h2>
+        {/* Experience Section */}
+        <BentoItem className="experience-card mt-20" id="experience">
+          <div className="flex items-center gap-6 mb-12">
+            <h2 className="text-5xl font-bold">Experience</h2>
+            <div className="h-px bg-white/10 flex-grow" />
           </div>
-          <div className="timeline">
+          <div className="space-y-0">
             {experiences.map((exp) => (
-              <article key={`${exp.role}-${exp.company}`} className="timeline-card">
-                <div className="timeline-head">
-                  <div>
-                    <h3>{exp.role}</h3>
-                    <p>{exp.company}</p>
-                  </div>
-                  <span>{exp.period}</span>
+              <div key={exp.role} className="exp-item">
+                <div className="text-dim font-bold uppercase tracking-widest text-xs pt-2">{exp.period}</div>
+                <div>
+                  <h4 className="text-2xl font-bold mb-1">{exp.role}</h4>
+                  <p className="text-white/40 font-medium mb-6 uppercase text-xs tracking-tighter">{exp.company}</p>
+                  <ul className="space-y-4">
+                    {exp.points.map(p => (
+                      <li key={p} className="text-dim text-md flex items-start gap-3">
+                        <ArrowUpRight size={14} className="mt-1 text-white/20 shrink-0" />
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <ul>
-                  {exp.points.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
-              </article>
+              </div>
             ))}
           </div>
-        </section>
+        </BentoItem>
 
-        {/* ── Projects ─────────────────────────────────────── */}
-        <section className="section" id="projects">
-          <div className="section-heading">
-            <p className="eyebrow">Projects</p>
-            <h2>Case studies built around reporting, forecasting, and decision support.</h2>
-          </div>
-          <div className="project-grid">
-            {projects.map((project) => (
-              <article key={project.title} className="project-card">
-                <div className="project-head">
-                  <h3>{project.title}</h3>
-                  <p>{project.subtitle}</p>
-                </div>
-                <div className="project-stack-badge">
-                  {project.stack.map((tech) => (
-                    <span key={tech}>{tech}</span>
-                  ))}
-                </div>
-                <p className="project-summary">{project.summary}</p>
-                <ul>
-                  {project.highlights.map((h) => (
-                    <li key={h}>{h}</li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* ── Skills ───────────────────────────────────────── */}
-        <section className="section skills-section">
-          <div className="section-heading">
-            <p className="eyebrow">Skills</p>
-            <h2>Tools I use to build reliable analytics workflows.</h2>
-          </div>
-          <div className="skills-grid">
-            {skillGroups.map((group) => (
-              <article key={group.title} className="skill-card">
-                <h3>{group.title}</h3>
-                <div className="chip-wrap">
-                  {group.items.map((item) => (
-                    <span key={item} className="chip">{item}</span>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* ── Education & Credentials ──────────────────────────────────── */}
-        <section className="section credentials-section">
-          <div className="section-heading">
-            <p className="eyebrow">Academic & Professional</p>
-            <h2>Certifications, Achievements & Education Records.</h2>
-          </div>
-          
-          <div className="credentials-flex">
-            <div className="credentials-text-col">
-              <article className="credential-card mb-4">
-                <p className="eyebrow">Certifications</p>
-                <ul>
-                  {certifications.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </article>
-              <article className="credential-card">
-                <p className="eyebrow">Achievements</p>
-                <ul>
-                  {achievements.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </article>
-            </div>
-            
-            <div className="credentials-cert-col">
-               <article className="cert-preview-card">
-                 <div className="cert-header">
-                   <Award size={18} />
-                   <span>12th Grade Board Certificate</span>
-                 </div>
-                 <div className="cert-image-container">
-                   <img src="/cert-12th.jpg" alt="12th Grade Certificate" />
-                   <div className="cert-overlay">
-                     <span>Higher Secondary Examination</span>
-                   </div>
-                 </div>
-               </article>
-               
-               <article className="cert-preview-card">
-                 <div className="cert-header">
-                   <Award size={18} />
-                   <span>10th Grade Board Certificate</span>
-                 </div>
-                 <div className="cert-image-container">
-                   <img src="/cert-10th.jpg" alt="10th Grade Certificate" />
-                   <div className="cert-overlay">
-                     <span>Secondary School Leaving Certificate</span>
-                   </div>
-                 </div>
-               </article>
-            </div>
-          </div>
-        </section>
-
-        {/* ── Contact ──────────────────────────────────────── */}
-        <section className="section contact-section" id="contact">
-          <div className="contact-card">
+        {/* GitHub Live Integration */}
+        <BentoItem className="github-card mt-20">
+          <div className="flex justify-between items-end mb-12">
             <div>
-              <p className="eyebrow">Contact</p>
-              <h2>Open to data analyst roles, internships, and collaborative projects.</h2>
-              <p className="contact-text">
-                If you're hiring for analytics, BI, reporting, or operations insight work, I'd love to
-                connect and discuss how I can contribute.
-              </p>
+              <h2 className="text-4xl font-bold mb-4 flex items-center gap-4"><Github size={32} /> GitHub Ecosystem</h2>
+              <p className="text-dim text-lg">Real-time repository sync directly from my developer profile.</p>
             </div>
-            <div className="contact-actions">
-              <a className="button button-primary" href="mailto:manishmaniyadhav@gmail.com">
-                <Mail size={17} /> Email Me
-              </a>
-              <a
-                className="button button-secondary"
-                href="https://linkedin.com/in/manish050"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Linkedin size={17} /> LinkedIn
-              </a>
-              <a
-                className="button button-secondary"
-                href="https://github.com/manishzzz"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Github size={17} /> GitHub
-              </a>
+            <a href="https://github.com/manishzzz" target="_blank" rel="noreferrer" className="px-6 py-3 border border-white/10 rounded-full text-xs font-bold flex items-center gap-2 hover:bg-white/5 transition-all">
+              Live Feed <Globe size={14} />
+            </a>
+          </div>
+          <GithubRepos username="manishzzz" />
+        </BentoItem>
+
+        {/* Education & Credentials */}
+        <BentoItem className="cert-card">
+          <div className="flex items-center gap-3 mb-8">
+            <Award size={24} className="text-white/40" />
+            <h3 className="text-2xl font-bold">Credentials</h3>
+          </div>
+          <div className="space-y-6">
+            <div className="group cursor-pointer">
+              <p className="text-[10px] uppercase font-black text-white/20 mb-1">State Board</p>
+              <h4 className="text-lg group-hover:text-white transition-colors">12th Grade Board Certificate</h4>
+              <p className="text-dim text-sm mt-1">Higher Secondary Examination Record</p>
+            </div>
+            <div className="group cursor-pointer">
+              <p className="text-[10px] uppercase font-black text-white/20 mb-1">State Board</p>
+              <h4 className="text-lg group-hover:text-white transition-colors">10th Grade Board Certificate</h4>
+              <p className="text-dim text-sm mt-1">SSLC Examination Record</p>
             </div>
           </div>
-        </section>
+        </BentoItem>
+
+        <BentoItem className="cert-card">
+          <div className="flex items-center gap-3 mb-8">
+            <GraduationCap size={24} className="text-white/40" />
+            <h3 className="text-2xl font-bold">Academic</h3>
+          </div>
+          <div className="border-l-2 border-white/5 pl-6 py-2">
+             <h4 className="text-xl font-bold">B.E. Computer Science</h4>
+             <p className="text-dim text-sm mt-1 leading-relaxed">
+               Vivekananda College of Engineering & Technology. <br />
+               Focus on Algorithms, Data Structures, and Analytics.
+             </p>
+          </div>
+        </BentoItem>
+
+        {/* Contact CTA */}
+        <BentoItem className="col-span-12 bg-white text-black mt-20 py-32 text-center" id="contact">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-7xl font-bold mb-8 tracking-tighter">Let's create <br />something exceptional.</h2>
+            <p className="text-black/50 text-xl mb-16 max-w-2xl mx-auto font-medium">
+              Open for Data Analytics roles, AI research partnerships, and strategic consulting.
+            </p>
+            <div className="flex flex-wrap justify-center gap-12">
+              <a href="mailto:manishmaniyadhav@gmail.com" className="text-3xl font-black hover:opacity-50 transition-opacity border-b-4 border-black">Email</a>
+              <a href="https://linkedin.com/in/manish050" className="text-3xl font-black hover:opacity-50 transition-opacity border-b-4 border-black">LinkedIn</a>
+              <a href="https://github.com/manishzzz" className="text-3xl font-black hover:opacity-50 transition-opacity border-b-4 border-black">GitHub</a>
+            </div>
+          </motion.div>
+        </BentoItem>
 
       </main>
 
-      {/* ── Footer ─────────────────────────────────────────── */}
-      <footer className="footer">
-        <p>Built with React · Tailored for analytics-focused hiring.</p>
-        <div className="footer-links">
-          <a href="https://linkedin.com/in/manish050" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-            <Linkedin size={15} />
-          </a>
-          <a href="https://github.com/manishzzz" target="_blank" rel="noreferrer" aria-label="GitHub">
-            <Github size={15} />
-          </a>
-          <a href="mailto:manishmaniyadhav@gmail.com" aria-label="Email">
-            <Mail size={15} />
-          </a>
-          <a href="/Manish_Data_Analyst_Resume.pdf" target="_blank" rel="noreferrer" aria-label="Resume">
-            <ExternalLink size={15} />
-          </a>
-        </div>
+      <footer className="py-20 text-center text-dim text-xs uppercase tracking-[0.5em] font-black opacity-30">
+        <p>© 2026 Manish · Kasaragod, India</p>
       </footer>
-
     </div>
   )
 }
